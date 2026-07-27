@@ -61,7 +61,24 @@ pip install -r requirements.txt
 ## CPU Only
 #conda install pytorch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 cpuonly -c pytorch
 ```
+## 4 快速开始（训练）
+-通用 LNN 训练
+```bash
+# General LNN Training
+python train.py --model yolov8_lnn.yaml --data ultralytics/cfg/datasets/uavdt.yaml --epochs 300
 
+# VisDrone tuned
+python train.py --model yolov8_lnn_visdrone.yaml --data ultralytics/cfg/datasets/VisDrone.yaml --epochs 300
+
+# AI-TOD tuned
+python train.py --model yolov8_lnn_ai_tod.yaml --data ultralytics/cfg/datasets/ai_tod.yaml --epochs 300
+
+# UAVDT tuned
+python train.py --model yolov8_lnn_uavdt.yaml --data ultralytics/cfg/datasets/uavdt.yaml --epochs 300
+
+# Multi-dataset helper script
+python train_lnn.py --dataset visdrone   # or ai_tod / uvadt / all
+```
 
 ### 4. 运行训练
 ```bash
