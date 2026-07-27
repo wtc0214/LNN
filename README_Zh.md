@@ -28,7 +28,7 @@ LNN 引入三个关键模块，以提升无人机小目标检测中的特征表�
 
 🔗 https://github.com/VisDrone/VisDrone-Dataset
 
-### 3. Install Dependencies
+### Install Dependencies
 (环境安装推荐直接使用已配置好的 YOLOv8 或 YOLOv11 环境，无需重复安装）
 ```bash
 # Step 1.Create a virtual environment with conda
@@ -61,7 +61,7 @@ pip install -r requirements.txt
 ## CPU Only
 #conda install pytorch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 cpuonly -c pytorch
 ```
-## 4 快速开始（训练）
+### 快速开始（训练）
 -通用 LNN 训练
 ```bash
 # General LNN Training
@@ -80,7 +80,7 @@ python train.py --model yolov8_lnn_uavdt.yaml --data ultralytics/cfg/datasets/ua
 python train_lnn.py --dataset visdrone   # or ai_tod / uvadt / all
 ```
 
-### 4. 运行训练
+###  运行训练
 ```bash
 python train.py --data your_dataset_config.yaml
 ```
@@ -99,7 +99,7 @@ python train.py --data your_dataset_config.yaml
    - 灰度图训练脚本，适用于单通道图像任务
 
 
-### 5.测试与验证
+### 测试与验证
 
 运行以下命令进行模型验证：
 ```bash
