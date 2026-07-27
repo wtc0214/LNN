@@ -79,7 +79,7 @@ pip install -r requirements.txt
 ```
 
 
-## 4) Quick Start (Training)
+##  Quick Start (Training)
 ```bash
 # General LNN Training
 python train.py --model yolov8_lnn.yaml --data ultralytics/cfg/datasets/uavdt.yaml --epochs 300
@@ -106,20 +106,20 @@ Below are the Python script files for different training modes included in the p
    - Basic training script.
    - Used for standard training processes, suitable for general image classification or detection tasks.
 
-2. **`train-rtdetr.py`**
+4.2. **`train-rtdetr.py`**
    - Training script for RTDETR (Real-Time Detection Transformer).
 
-3. **`train_Gray.py`**
+4.3. **`train_Gray.py`**
    - Grayscale image training script.
    - Specifically for processing datasets of grayscale images, suitable for tasks requiring image analysis in grayscale space.
 
 
-### 5. Testing
+###  Testing
 Run the test script to verify if the data loading is correct:
 ```bash
 python val.py
 ```
-### 6. inference scripts
+###  inference scripts
 ```bash
 python get_FPS.py
 ```
