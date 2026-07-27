@@ -22,7 +22,7 @@ LNN 引入三个关键模块，以提升无人机小目标检测中的特征表�
 
 2. UAVDT Dataset
 
-🔗 https://sites.google.com/site/daviddo0323/projects/uavdt
+🔗 https://zenodo.org/records/14575517
 
 3. VisDrone2019-DET Dataset
 
