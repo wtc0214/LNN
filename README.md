@@ -1,21 +1,35 @@
 # LNN: Liquid Neural Network Enhanced YOLO for UAV Small Object Detection
 
-README for GitHub. This repository provides the official implementation of LNN (Liquid Neural Network Enhanced Detector), including environment setup, dataset preparation, model configurations, training commands, and module usage for UAV small object detection on AI-TOD, UAVDT, and VisDrone datasets.
+🚀 Overview
 
-## 1) Environment
-```bash
-# Python >= 3.10
-conda create -n yolov8 python=3.10 -y
-conda activate yolov8
+LNN is a lightweight and real-time object detection framework, designed for small object detection in unmanned aerial vehicle (UAV) imagery.
 
-# PyTorch (pick CUDA version for your GPU; example: cu121)
-pip install torch==2.1.2 torchvision==0.16.2 --index-url https://download.pytorch.org/whl/cu121
+Unlike conventional detectors that rely on fixed convolutional feature extraction and struggle with limited object pixels, complex backgrounds, and scale variations, LNN introduces liquid neural modeling to achieve adaptive feature evolution and dynamic representation learning.
 
-# Project deps
-pip install -r requirements.txt
-```
+The proposed framework aims to achieve an effective balance between detection accuracy, computational efficiency, and real-time inference capability, making it suitable for UAV perception, aerial monitoring, and edge-device deployment.
 
-## 2) Datasets
+## Model Architecture
+
+LNN introduces three key modules to improve feature representation and computational efficiency:
+
+- **Liquid Neural Module (Liquid)**
+  
+  Introduces adaptive hidden-state evolution based on liquid neural dynamics, enabling continuous feature refinement and improving the representation capability for small and low-resolution objects.
+
+
+- **Liquid Spatial Pyramid Pooling (LiquidSPPF)**
+  
+  Integrates liquid state evolution with multi-scale spatial aggregation, enhancing contextual information extraction under large-scale variations and complex UAV backgrounds.
+
+
+- **C2Liquid_Adaptive**
+  
+  Combines C2-style feature aggregation with adaptive liquid evolution, allowing dynamic feature fusion and improving localization accuracy for densely distributed small targets.
+
+
+## Datasets
+The experiments are conducted on three datasets:
+
  1. AI-TOD Dataset
     
 🔗https://github.com/jwwangchn/AI-TOD
@@ -30,75 +44,7 @@ pip install -r requirements.txt
 
 Place datasets under `datasets/` or edit the YAMLs in `ultralytics/cfg/datasets/` (e.g., `VisDrone.yaml`, `ai_tod.yaml`, `uavdt.yaml`).
 
-## 3) Model Configurations
-The repository provides several LNN configurations:
-```bash
-ultralytics/cfg/models/
-│
-├── yolov8_lnn.yaml
-├── yolov8_lnn_ai_tod.yaml
-├── yolov8_lnn_uavdt.yaml
-└── yolov8_lnn_visdrone.yaml
-```
-Different configurations are optimized for different UAV scenarios.
-The proposed framework mainly introduces three components:
-#Liquid Module
--Adaptive hidden-state evolution
--Dynamic feature transformation
--Enhances spatial representation for small objects
-#LiquidSPPF
--Liquid-enhanced spatial pyramid pooling
--Improves multi-scale feature aggregation
--Strengthens object representation under scale variation
-#C2Liquid_Adaptive
--Adaptive liquid feature fusion
--Dynamically adjusts feature interactions
--Improves localization accuracy for tiny objects
-
-## 4) Quick Start (Training)
-```bash
-# General LNN Training
-python train.py --model yolov8_lnn.yaml --data ultralytics/cfg/datasets/uavdt.yaml --epochs 300
-
-# VisDrone tuned
-python train.py --model yolov8_lnn_visdrone.yaml --data ultralytics/cfg/datasets/VisDrone.yaml --epochs 300
-
-# AI-TOD tuned
-python train.py --model yolov8_lnn_ai_tod.yaml --data ultralytics/cfg/datasets/ai_tod.yaml --epochs 300
-
-# UAVDT tuned
-python train.py --model yolov8_lnn_uavdt.yaml --data ultralytics/cfg/datasets/uavdt.yaml --epochs 300
-
-# Multi-dataset helper script
-python train_lnn.py --dataset visdrone   # or ai_tod / uvadt / all
-```
-
-## 5) Using in Python
-```python
-import torch
-
-from ultralytics.nn.modules.liquid import C2Liquid_Adaptive
-
-
-module = C2Liquid_Adaptive(
-    c1=256,
-    c2=256,
-    n=3,
-    shortcut=False,
-    expansion=0.5,
-    hidden_dim_ratio=0.75,
-    tau=1.0
-)
-
-
-x = torch.randn(1,256,64,64)
-
-y = module(x)
-
-print(y.shape)
-```
-
-### 3. Install Dependencies
+## Environment
 (It is recommended to directly use the YOLOv11 or YOLOv8 environment that has already been set up on this computer, without the need to download again.)
 ```bash
 # Step 1.Create a virtual environment with conda
@@ -133,10 +79,25 @@ pip install -r requirements.txt
 ```
 
 
-### 4. Run the Program
+## 4) Quick Start (Training)
 ```bash
-python train.py --data your_dataset_config.yaml
+# General LNN Training
+python train.py --model yolov8_lnn.yaml --data ultralytics/cfg/datasets/uavdt.yaml --epochs 300
+
+# VisDrone tuned
+python train.py --model yolov8_lnn_visdrone.yaml --data ultralytics/cfg/datasets/VisDrone.yaml --epochs 300
+
+# AI-TOD tuned
+python train.py --model yolov8_lnn_ai_tod.yaml --data ultralytics/cfg/datasets/ai_tod.yaml --epochs 300
+
+# UAVDT tuned
+python train.py --model yolov8_lnn_uavdt.yaml --data ultralytics/cfg/datasets/uavdt.yaml --epochs 300
+
+# Multi-dataset helper script
+python train_lnn.py --dataset visdrone   # or ai_tod / uvadt / all
 ```
+
+
 #### Explanation of Training Modes
 
 Below are the Python script files for different training modes included in the project, each targeting specific training needs and data types.
