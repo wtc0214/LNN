@@ -24,13 +24,14 @@ Place datasets under `datasets/` or edit the YAMLs in `ultralytics/cfg/datasets/
 
 ## 3) Model Configurations
 The repository provides several LNN configurations:
+```bash
 ultralytics/cfg/models/
 │
 ├── yolov8_lnn.yaml
 ├── yolov8_lnn_ai_tod.yaml
 ├── yolov8_lnn_uavdt.yaml
 └── yolov8_lnn_visdrone.yaml
-
+```
 Different configurations are optimized for different UAV scenarios.
 The proposed framework mainly introduces three components:
 #Liquid Module
@@ -48,55 +49,108 @@ The proposed framework mainly introduces three components:
 
 ## 4) Quick Start (Training)
 ```bash
-# Generic INR model
-python train.py --model yolov8_inr_enhanced.yaml --data ultralytics/cfg/datasets/VisDrone.yaml --epochs 300
+# General LNN Training
+python train.py --model yolov8_lnn.yaml --data ultralytics/cfg/datasets/uavdt.yaml --epochs 300
 
 # VisDrone tuned
-python train.py --model yolov8_inr_visdrone.yaml --data ultralytics/cfg/datasets/VisDrone.yaml --epochs 300
+python train.py --model yolov8_lnn_visdrone.yaml --data ultralytics/cfg/datasets/VisDrone.yaml --epochs 300
 
 # AI-TOD tuned
-python train.py --model yolov8_inr_ai_tod.yaml --data ultralytics/cfg/datasets/ai_tod.yaml --epochs 300
+python train.py --model yolov8_lnn_ai_tod.yaml --data ultralytics/cfg/datasets/ai_tod.yaml --epochs 300
 
 # UAVDT tuned
-python train.py --model yolov8_inr_uvadt.yaml --data ultralytics/cfg/datasets/uavdt.yaml --epochs 300
+python train.py --model yolov8_lnn_uavdt.yaml --data ultralytics/cfg/datasets/uavdt.yaml --epochs 300
 
 # Multi-dataset helper script
-python train_inr_datasets.py --dataset visdrone   # or ai_tod / uvadt / all
+python train_lnn.py --dataset visdrone   # or ai_tod / uvadt / all
 ```
 
 ## 5) Using in Python
 ```python
 import torch
-from ultralytics.nn.modules.inr_c2f import INREnhancedC2f
 
-module = INREnhancedC2f(
-    c1=256, c2=256, n=3,
-    shortcut=False, g=1, e=0.5,
-    use_inr=True,       # enable INR enhancement
-    use_attention=True, # coordinate-aware attention
-    coord_encoding_dim=128
+from ultralytics.nn.modules.liquid import C2Liquid_Adaptive
+
+
+module = C2Liquid_Adaptive(
+    c1=256,
+    c2=256,
+    n=3,
+    shortcut=False,
+    expansion=0.5,
+    hidden_dim_ratio=0.75,
+    tau=1.0
 )
-x = torch.randn(1, 256, 64, 64)
+
+
+x = torch.randn(1,256,64,64)
+
 y = module(x)
+
+print(y.shape)
 ```
 
-## 6) What is INREnhancedC2f
-- Extends C2f with Implicit Neural Representation (INR) to encode fine-grained spatial details for tiny/clustered objects.
-- Adds coordinate encoding + attention for better localization under high-altitude UAV views.
-- Drop-in replacement for C2f; preserves interfaces so YAML swaps are simple.
+### 3. Install Dependencies
+(It is recommended to directly use the YOLOv11 or YOLOv8 environment that has already been set up on this computer, without the need to download again.)
+```bash
+# Step 1.Create a virtual environment with conda
+conda create -n pt121_py38 python=3.8
+conda activate pt121_py38
 
-## 7) Key Params to Tune
-- `use_inr` (bool): turn INR enhancement on/off.
-- `use_attention` (bool): keep on for UAV tiny objects.
-- `coord_encoding_dim` (int): 96–192 works well on VisDrone; 128–224 on AI-TOD.
-- `e` (expand ratio) and `n` (repeats): balance capacity vs. FLOPs for your GPU.
+# Step 2: Install pytorch
+conda install pytorch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 cudatoolkit=11.3 -c pytorch
 
-## 8) Tips for Small-Object UAV Training
-- Use higher input resolution if memory allows (e.g., 832–1024 for AI-TOD).
-- Keep strong augmentations (mosaic/mixup) modest to avoid over-corrupting tiny targets.
-- Validate with class-wise recall; tiny-object recall is the main indicator.
 
-## 9) References
-- INR and coordinate encodings inspired by implicit neural representations for vision.
-- Please also cite YOLOv8 and your chosen datasets (AI-TOD, UAVDT, VisDrone) when publishing results.
+# Step 3: Install the remaining dependencies
 
+pip install -r requirements.txt
+
+
+# https://pytorch.org/get-started/previous-versions/
+## CUDA 10.2
+#conda install pytorch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 cudatoolkit=10.2 -c pytorch
+## CUDA 11.3
+#conda install pytorch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 cudatoolkit=11.3 -c pytorch
+## CUDA 11.6
+#conda install pytorch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 cudatoolkit=11.6 -c pytorch -c conda-forge
+## CPU Only
+#conda install pytorch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 cpuonly -c pytorch
+
+## CUDA 11.8
+#conda install pytorch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 pytorch-cuda=11.8 -c pytorch -c nvidia
+## CUDA 12.1
+#conda install pytorch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 pytorch-cuda=12.1 -c pytorch -c nvidia
+## CPU Only
+#conda install pytorch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 cpuonly -c pytorch
+```
+
+
+### 4. Run the Program
+```bash
+python train.py --data your_dataset_config.yaml
+```
+#### Explanation of Training Modes
+
+Below are the Python script files for different training modes included in the project, each targeting specific training needs and data types.
+
+4.1. **`train.py`**
+   - Basic training script.
+   - Used for standard training processes, suitable for general image classification or detection tasks.
+
+2. **`train-rtdetr.py`**
+   - Training script for RTDETR (Real-Time Detection Transformer).
+
+3. **`train_Gray.py`**
+   - Grayscale image training script.
+   - Specifically for processing datasets of grayscale images, suitable for tasks requiring image analysis in grayscale space.
+
+
+### 5. Testing
+Run the test script to verify if the data loading is correct:
+```bash
+python val.py
+```
+### 6. inference scripts
+```bash
+python get_FPS.py
+```
