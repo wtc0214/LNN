@@ -1,6 +1,6 @@
-# INR-Enhanced C2f for Small-Object UAV Datasets
+# LNN: Liquid Neural Network Enhanced YOLO for UAV Small Object Detection
 
-README for GitHub. Covers environment setup, datasets, configs, training, and tuning for INR-Enhanced C2f modules (AI-TOD, UAVDT, VisDrone).
+README for GitHub. This repository provides the official implementation of LNN (Liquid Neural Network Enhanced Detector), including environment setup, dataset preparation, model configurations, training commands, and module usage for UAV small object detection on AI-TOD, UAVDT, and VisDrone datasets.
 
 ## 1) Environment
 ```bash
@@ -22,13 +22,29 @@ pip install -r requirements.txt
 
 Place datasets under `datasets/` or edit the YAMLs in `ultralytics/cfg/datasets/` (e.g., `VisDrone.yaml`, `ai_tod.yaml`, `uavdt.yaml`).
 
-## 3) Configs (INR-ready)
-- Generic: `yolov8_inr_enhanced.yaml`
-- VisDrone: `yolov8_inr_visdrone.yaml`
-- AI-TOD: `yolov8_inr_ai_tod.yaml`
-- UAVDT: `yolov8_inr_uvadt.yaml`
+## 3) Model Configurations
+The repository provides several LNN configurations:
+ultralytics/cfg/models/
+│
+├── yolov8_lnn.yaml
+├── yolov8_lnn_ai_tod.yaml
+├── yolov8_lnn_uavdt.yaml
+└── yolov8_lnn_visdrone.yaml
 
-All use `INREnhancedC2f` blocks in backbone/head for tiny-object emphasis.
+Different configurations are optimized for different UAV scenarios.
+The proposed framework mainly introduces three components:
+Liquid Module
+Adaptive hidden-state evolution
+Dynamic feature transformation
+Enhances spatial representation for small objects
+LiquidSPPF
+Liquid-enhanced spatial pyramid pooling
+Improves multi-scale feature aggregation
+Strengthens object representation under scale variation
+C2Liquid_Adaptive
+Adaptive liquid feature fusion
+Dynamically adjusts feature interactions
+Improves localization accuracy for tiny objects
 
 ## 4) Quick Start (Training)
 ```bash
