@@ -36,7 +36,7 @@ The experiments are conducted on three datasets:
 
  2. UAVDT Dataset
     
-🔗https://sites.google.com/site/daviddo0323/projects/uavdt
+🔗https://zenodo.org/records/14575517
 
  3. VisDrone2019-DET Dataset
     
