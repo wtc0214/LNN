@@ -33,18 +33,18 @@ ultralytics/cfg/models/
 
 Different configurations are optimized for different UAV scenarios.
 The proposed framework mainly introduces three components:
-Liquid Module
-Adaptive hidden-state evolution
-Dynamic feature transformation
-Enhances spatial representation for small objects
-LiquidSPPF
-Liquid-enhanced spatial pyramid pooling
-Improves multi-scale feature aggregation
-Strengthens object representation under scale variation
-C2Liquid_Adaptive
-Adaptive liquid feature fusion
-Dynamically adjusts feature interactions
-Improves localization accuracy for tiny objects
+#Liquid Module
+-Adaptive hidden-state evolution
+-Dynamic feature transformation
+-Enhances spatial representation for small objects
+#LiquidSPPF
+-Liquid-enhanced spatial pyramid pooling
+-Improves multi-scale feature aggregation
+-Strengthens object representation under scale variation
+#C2Liquid_Adaptive
+-Adaptive liquid feature fusion
+-Dynamically adjusts feature interactions
+-Improves localization accuracy for tiny objects
 
 ## 4) Quick Start (Training)
 ```bash
