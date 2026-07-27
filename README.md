@@ -17,10 +17,15 @@ pip install -r requirements.txt
 
 ## 2) Datasets
  1. AI-TOD Dataset
+    
 🔗https://github.com/jwwangchn/AI-TOD
+
  2. UAVDT Dataset
+    
 🔗https://sites.google.com/site/daviddo0323/projects/uavdt
- 3. VisDrone2019-DET Dataset 
+
+ 3. VisDrone2019-DET Dataset
+    
 🔗https://github.com/VisDrone/VisDrone-Dataset
 
 Place datasets under `datasets/` or edit the YAMLs in `ultralytics/cfg/datasets/` (e.g., `VisDrone.yaml`, `ai_tod.yaml`, `uavdt.yaml`).
